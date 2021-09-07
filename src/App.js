@@ -15,7 +15,7 @@ function App() {
     const getNews = async () => {
       const response = await fetch(url);
       const newsRecived = await response.json();
-
+      console.log(newsRecived);
       setNews(newsRecived.articles);
     };
     getNews();
