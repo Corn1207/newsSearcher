@@ -9,16 +9,19 @@ function App() {
   const [news, setNews] = useState([]);
 
   useEffect(() => {
-    const API_KEY = "a20aab23f8d24dc5addda7d1857643a6";
-    const country = "jp";
-    const url = `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=${API_KEY}`;
-    const getNews = async () => {
-      const response = await fetch(url);
-      const newsRecived = await response.json();
-      console.log(newsRecived);
-      setNews(newsRecived.articles);
-    };
-    getNews();
+    try {
+      const API_KEY = "a20aab23f8d24dc5addda7d1857643a6";
+      const country = "jp";
+      const url = `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=${API_KEY}`;
+      const getNews = async () => {
+        const response = await fetch(url);
+        const newsRecived = await response.json();
+        setNews(newsRecived.articles);
+      };
+      getNews();
+    } catch (err) {
+      console.log(err);
+    }
   }, [category]);
 
   return (
