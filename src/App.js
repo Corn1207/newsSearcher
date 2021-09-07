@@ -1,24 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import Header from "./components/Header";
+import Form from "./components/Form";
+import NewsList from "./components/NewsList";
 
 function App() {
+  // Define category and news
+  const [category, setCategory] = useState("");
+  const [news, setNews] = useState([]);
+
+  useEffect(() => {
+    const API_KEY = "a20aab23f8d24dc5addda7d1857643a6";
+    const country = "jp";
+    const url = `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=${API_KEY}`;
+    const getNews = async () => {
+      const response = await fetch(url);
+      const newsRecived = await response.json();
+
+      setNews(newsRecived.articles);
+    };
+    getNews();
+  }, [category]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Header title="News Search" />
+      <div className="container white">
+        <Form setCategory={setCategory} />
+        <NewsList newsList={news} />
+      </div>
+    </>
   );
 }
 
